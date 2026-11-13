@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кто такие программисты? | Профессия будущего</title>
+    <style>
+        :root {
+            --bg-color: #060913;
+            --nav-bg: rgba(6, 9, 19, 0.88);
+            --card-bg: rgba(16, 26, 51, 0.55);
+            --border-color: rgba(59, 130, 246, 0.25);
+            --accent: #3b82f6;
+            --accent-glow: rgba(59, 130, 246, 0.22);
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --code-bg: #03050a;
+            --code-text: #38bdf8;
+        }
+
+        body.light-theme {
+            --bg-color: #f8fafc;
+            --nav-bg: rgba(255, 255, 255, 0.9);
+            --card-bg: #ffffff;
+            --border-color: rgba(37, 99, 235, 0.2);
+            --accent: #2563eb;
+            --accent-glow: rgba(37, 99, 235, 0.1);
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --code-bg: #0f172a;
+            --code-text: #38bdf8;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            background-image: radial-gradient(circle at 15% 15%, var(--accent-glow), transparent 45%);
+            min-height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        nav {
+            display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap;
+            padding: 16px 20px; background: var(--nav-bg);
+            backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-color);
+            position: sticky; top: 0; z-index: 100; transition: background 0.3s;
+        }
+
+        nav a {
+            color: var(--text-main); text-decoration: none; padding: 8px 16px;
+            border-radius: 20px; font-weight: 500; transition: 0.3s;
+            border: 1px solid transparent; font-size: 0.95rem;
+        }
+
+        nav a:hover { border-color: var(--accent); color: var(--accent); }
+        nav a.active { background: var(--accent); color: #ffffff; }
+
+        .theme-btn {
+            background: var(--card-bg); color: var(--text-main);
+            border: 1px solid var(--border-color); padding: 8px 14px;
+            border-radius: 20px; cursor: pointer; font-weight: 500;
+            transition: 0.3s; margin-left: 10px;
+        }
+        .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+        .container { max-width: 1150px; margin: 0 auto; padding: 45px 20px; }
+
+        /* Главный блок Hero с увеличенной пропорцией для фото */
+        .hero {
+            display: grid; grid-template-columns: 1fr 1.2fr; gap: 40px; align-items: center;
+            padding: 50px; background: var(--card-bg); border: 1px solid var(--border-color);
+            border-radius: 28px; backdrop-filter: blur(16px); margin-bottom: 45px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 900px) { 
+            .hero { grid-template-columns: 1fr; text-align: center; padding: 35px 20px; } 
+        }
+
+        .hero h1 { font-size: 2.7rem; margin-bottom: 18px; line-height: 1.2; letter-spacing: -0.5px; }
+        .hero h1 span { color: var(--accent); }
+        .hero p { font-size: 1.15rem; color: var(--text-muted); }
+
+        /* Масштабная фотография без рамок */
+        .image-frame {
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-frame img {
+            width: 100%;
+            height: auto;
+            max-height: 420px; /* Увеличено для максимальной масштабности */
+            object-fit: cover;
+            display: block;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+            transition: transform 0.5s ease;
+        }
+
+        .image-frame:hover img { 
+            transform: scale(1.20); 
+        }
+
+        /* Карточки направлений */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
+        
+        .card {
+            background: var(--card-bg); border: 1px solid var(--border-color);
+            border-radius: 22px; padding: 32px; backdrop-filter: blur(12px);
+            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+        }
+
+        .card:hover { 
+            transform: translateY(-6px); 
+            border-color: var(--accent);
+            box-shadow: 0 14px 30px var(--accent-glow);
+        }
+
+        .card h3 { color: var(--accent); margin-bottom: 12px; font-size: 1.4rem; }
+        .card p { color: var(--text-muted); font-size: 1.02rem; }
+
+        /* Блок с кодом */
+        .code-box {
+            background: var(--code-bg); border: 1px solid var(--border-color);
+            padding: 24px 28px; border-radius: 16px; font-family: 'Consolas', 'Courier New', monospace;
+            color: var(--code-text); margin-top: 45px; overflow-x: auto;
+            font-size: 1.05rem; box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        footer { text-align: center; padding: 40px; color: var(--text-muted); font-size: 0.95rem; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="active">1. Кто такие программисты</a>
+        <a href="career.html">2. Востребованность и доход</a>
+        <a href="society.html">3. Польза для общества</a>
+        <a href="about.html">4. Мой путь в профессии</a>
+        <button class="theme-btn" id="themeToggle">☀️ Светлая тема</button>
+    </nav>
+
+    <div class="container">
+        <section class="hero">
+            <div>
+                <h1>Кто такие <span>программисты</span>?</h1>
+                <p>Это архитекторы цифрового мира, которые переводят человеческие идеи и логику на язык, понятный компьютерам, создавая сайты, приложения, игры и искусственный интеллект.</p>
+            </div>
+            <div class="image-frame">    
+                <img src="Рисунок2.png" alt="Программный код на экране монитора">
+            </div>
+        </section>
+
+        <div class="grid">
+            <div class="card">
+                <h3>Frontend-разработчик</h3>
+                <p>Создаёт всё, что пользователь видит на экране и с чем взаимодействует: кнопки, анимации, адаптивную вёрстку и удобные интерфейсы (HTML, CSS, JavaScript).</p>
+            </div>
+            <div class="card">
+                <h3>Backend-разработчик</h3>
+                <p>Отвечает за «мозг» и внутреннюю логику проекта: работу серверов, безопасность данных, авторизацию и взаимодействие с базами данных (Python, C#, Java, SQL).</p>
+            </div>
+            <div class="card">
+                <h3>Fullstack и Mobile</h3>
+                <p>Универсальные специалисты, способные собрать веб-приложение целиком, либо разработчики мобильных сервисов под Android и iOS, которыми мы пользуемся каждый день.</p>
+            </div>
+        </div>
+
+        <div class="code-box">
+            // Как выглядит повседневная магия кода:<br>
+            function createFuture(idea, logic) {<br>
+            &nbsp;&nbsp;if (idea && logic) return "Работающий цифровой продукт 🚀";<br>
+            }
+        </div>
+    </div>
+
+    <footer>Проект о специальности «Программист» • Страница 1 из 4</footer>
+
+    <script>
+        const btn = document.getElementById('themeToggle');
+        if (localStorage.getItem('theme') === 'light') {
+            document.body.classList.add('light-theme');
+            btn.textContent = '🌙 Тёмная тема';
+        }
+        btn.addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            const isLight = document.body.classList.contains('light-theme');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            btn.textContent = isLight ? '🌙 Тёмная тема' : '☀️ Светлая тема';
+        });
+    </script>
+</body>
+</html>

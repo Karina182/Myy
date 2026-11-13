@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Почему программисты необходимы обществу</title>
+    <style>
+        :root {
+            --bg-color: #060913;
+            --nav-bg: rgba(6, 9, 19, 0.88);
+            --card-bg: rgba(16, 26, 51, 0.55);
+            --border-color: rgba(59, 130, 246, 0.25);
+            --accent: #3b82f6;
+            --accent-glow: rgba(59, 130, 246, 0.22);
+            --quote-bg: rgba(59, 130, 246, 0.1);
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --img-blend: lighten;
+        }
+
+        body.light-theme {
+            --bg-color: #f8fafc;
+            --nav-bg: rgba(255, 255, 255, 0.9);
+            --card-bg: #ffffff;
+            --border-color: rgba(37, 99, 235, 0.2);
+            --accent: #2563eb;
+            --accent-glow: rgba(37, 99, 235, 0.1);
+            --quote-bg: rgba(37, 99, 235, 0.08);
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --img-blend: normal;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.7;
+            background-image: radial-gradient(circle at 50% 10%, var(--accent-glow), transparent 45%);
+            min-height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        nav {
+            display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap;
+            padding: 16px 20px; background: var(--nav-bg);
+            backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-color);
+            position: sticky; top: 0; z-index: 100; transition: background 0.3s;
+        }
+
+        nav a {
+            color: var(--text-main); text-decoration: none; padding: 8px 16px;
+            border-radius: 20px; font-weight: 500; transition: 0.3s;
+            border: 1px solid transparent; font-size: 0.95rem;
+        }
+
+        nav a:hover { border-color: var(--accent); color: var(--accent); }
+        nav a.active { background: var(--accent); color: #ffffff; }
+
+        .theme-btn {
+            background: var(--card-bg); color: var(--text-main);
+            border: 1px solid var(--border-color); padding: 8px 14px;
+            border-radius: 20px; cursor: pointer; font-weight: 500;
+            transition: 0.3s; margin-left: 10px;
+        }
+        .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+        .container { max-width: 1160px; margin: 0 auto; padding: 45px 20px; }
+
+        /* Верхний блок с масштабной первой картинкой */
+        .hero-society {
+            display: grid; grid-template-columns: 1fr 1.1fr; gap: 40px; align-items: center;
+            background: var(--card-bg); border: 1px solid var(--border-color);
+            border-radius: 28px; padding: 45px; backdrop-filter: blur(16px);
+            margin-bottom: 45px; box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+        }
+        @media (max-width: 900px) {
+            .hero-society { grid-template-columns: 1fr; text-align: center; padding: 30px 20px; }
+        }
+        .hero-society h1 { font-size: 2.6rem; margin-bottom: 16px; line-height: 1.2; letter-spacing: -0.5px; }
+        .hero-society h1 span { color: var(--accent); }
+        .hero-society p { color: var(--text-muted); font-size: 1.12rem; }
+
+        .hero-img-box {
+            display: flex; justify-content: center; align-items: center;
+        }
+        .hero-img-box img {
+            width: 100%; max-width: 540px; /* Увеличенный масштаб */
+            height: auto; max-height: 440px;
+            object-fit: contain; display: block;
+            border-radius: 20px;
+            mix-blend-mode: var(--img-blend);
+            transition: transform 0.4s ease;
+        }
+        .hero-img-box:hover img { transform: scale(1.20); }
+
+        .section-heading {
+            font-size: 1.85rem; margin-bottom: 24px;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .section-heading::before {
+            content: ""; display: inline-block; width: 6px; height: 28px;
+            background: var(--accent); border-radius: 4px;
+        }
+
+        /* Список вклада в общество */
+        .impact-list { display: flex; flex-direction: column; gap: 22px; margin-bottom: 50px; }
+        .impact-item {
+            display: flex; gap: 24px; align-items: flex-start;
+            background: var(--card-bg); border: 1px solid var(--border-color);
+            padding: 28px 32px; border-radius: 22px; backdrop-filter: blur(12px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+        }
+        .impact-item:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+            box-shadow: 0 12px 28px var(--accent-glow);
+        }
+        @media (max-width: 600px) {
+            .impact-item { flex-direction: column; gap: 14px; padding: 24px; }
+        }
+        .number {
+            background: var(--accent); color: #ffffff; font-weight: bold;
+            font-size: 1.25rem; min-width: 50px; height: 50px;
+            border-radius: 14px; display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .impact-item h3 { font-size: 1.32rem; margin-bottom: 8px; color: var(--text-main); }
+        .impact-item p { color: var(--text-muted); font-size: 1rem; }
+
+        /* Финальный блок с масштабной второй картинкой */
+        .conclusion-card {
+            display: grid; grid-template-columns: 1fr 1.1fr; gap: 40px; align-items: center;
+            background: var(--card-bg); border: 1px solid var(--border-color);
+            border-radius: 28px; padding: 45px; backdrop-filter: blur(16px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+        }
+        @media (max-width: 900px) {
+            .conclusion-card { grid-template-columns: 1fr; text-align: center; padding: 30px 20px; }
+        }
+        .personal-img-box {
+            display: flex; justify-content: center; align-items: center;
+        }
+        .personal-img-box img {
+            width: 100%; max-width: 480px; /* Увеличенный масштаб */
+            height: auto; max-height: 420px;
+            object-fit: contain; display: block;
+            border-radius: 20px;
+            mix-blend-mode: var(--img-blend);
+            transition: transform 0.4s ease;
+        }
+        .personal-img-box:hover img { transform: scale(1.20); }
+
+        .conclusion-text h2 { font-size: 1.9rem; margin-bottom: 14px; color: var(--accent); }
+        .conclusion-text p { color: var(--text-muted); font-size: 1.08rem; margin-bottom: 22px; }
+
+        .quote-box {
+            padding: 22px 26px; border-left: 4px solid var(--accent);
+            background: var(--quote-bg); border-radius: 0 16px 16px 0;
+            font-style: italic; font-size: 1.05rem; text-align: left;
+        }
+
+        footer { text-align: center; padding: 35px; color: var(--text-muted); font-size: 0.95rem; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html">1. Кто такие программисты</a>
+        <a href="career.html">2. Востребованность и доход</a>
+        <a href="society.html" class="active">3. Польза для общества</a>
+        <a href="about.html">4. Мой путь в профессии</a>
+        <button class="theme-btn" id="themeToggle">☀️ Светлая тема</button>
+    </nav>
+
+    <div class="container">
+        <!-- Главный блок с масштабной картинкой Рисунок4.png -->
+        <section class="hero-society">
+            <div>
+                <h1>Вклад специальности <span>«Информационные системы и программирование»</span> в общество</h1>
+                <p>Современный мир невозможно представить без программного кода и грамотно спроектированных баз данных. Сегодня специалисты в области информационных систем создают цифровой фундамент, на котором держится комфорт, безопасность и развитие всего общества.</p>
+            </div>
+            <div class="hero-img-box">
+                <img src="Рисунок4.png" alt="Специалист по информационным системам за работой">
+            </div>
+        </section>
+
+        <h2 class="section-heading">Почему эта профессия незаменима сегодня?</h2>
+        <div class="impact-list">
+            <div class="impact-item">
+                <div class="number">01</div>
+                <div>
+                    <h3>Автоматизация рутины и экономия времени</h3>
+                    <p>Информационные системы избавляют людей от многочасовой бумажной волокиты, длинных очередей и сложных ручных расчётов. Электронный документооборот, банковские приложения и государственные порталы позволяют решать повседневные задачи за считанные секунды.</p>
+                </div>
+            </div>
+
+            <div class="impact-item">
+                <div class="number">02</div>
+                <div>
+                    <h3>Цифровизация медицины и спасение жизней</h3>
+                    <p>Специалисты по информационным системам разрабатывают медицинские базы данных, системы электронной записи к врачам, платформы телемедицины и алгоритмы анализа диагностических снимков. Это помогает врачам быстрее ставить точные диагнозы и делает качественную медицину доступной даже в небольших городах.</p>
+                </div>
+            </div>
+
+            <div class="impact-item">
+                <div class="number">03</div>
+                <div>
+                    <h3>Развитие промышленности и энергетики</h3>
+                    <p>В нефтегазовой отрасли, машиностроении и энергетике программные комплексы контролируют работу оборудования в реальном времени, анализируют показания тысяч датчиков, прогнозируют нагрузки и предотвращают аварийные ситуации на производстве.</p>
+                </div>
+            </div>
+
+            <div class="impact-item">
+                <div class="number">04</div>
+                <div>
+                    <h3>Доступное образование и равные возможности</h3>
+                    <p>Образовательные платформы, интерактивные тренажёры и системы дистанционного обучения стирают географические границы. Любой студент или школьник может получать знания, осваивать новые навыки и общаться с экспертами независимо от того, где он живёт.</p>
+                </div>
+            </div>
+
+            <div class="impact-item">
+                <div class="number">05</div>
+                <div>
+                    <h3>Защита данных и цифровая безопасность</h3>
+                    <p>Грамотное проектирование архитектуры баз данных, систем авторизации и шифрования защищает личную информацию граждан, медицинские тайны и финансовые средства от утечек и кибератак.</p>
+                </div>
+            </div>
+
+            <div class="impact-item">
+                <div class="number">06</div>
+                <div>
+                    <h3>Инклюзивность и объединение людей</h3>
+                    <p>Современные приложения помогают людям с ограниченными возможностями здоровья свободно общаться, учиться и работать с помощью голосовых помощников и адаптивных интерфейсов, а социальные сервисы объединяют волонтёров и активную молодёжь для добрых дел.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Финальный блок с масштабным фото my1.png и цитатой -->
+        <section class="conclusion-card">
+            <div class="personal-img-box">
+                <img src="my1.png" alt="Энергия и вдохновение в профессии">
+            </div>
+            <div class="conclusion-text">
+                <h2>Технологии, созданные для людей</h2>
+                <p>Специальность «Информационные системы и программирование» объединяет в себе строгую инженерную логику, аналитику и творческий подход. Проектируя базы данных и разрабатывая удобные интерфейсы, мы напрямую влияем на то, насколько комфортной и безопасной будет жизнь миллионов людей завтра.</p>
+                <div class="quote-box">
+                    «Программист сегодня — это не просто человек, который пишет строки кода. Это архитектор цифровой среды, который превращает сложные технологии в простые и полезные решения для каждого человека».
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>Проект о специальности «Программист» • Страница 3 из 4</footer>
+
+    <script>
+        const btn = document.getElementById('themeToggle');
+        if (localStorage.getItem('theme') === 'light') {
+            document.body.classList.add('light-theme');
+            btn.textContent = '🌙 Тёмная тема';
+        }
+        btn.addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            const isLight = document.body.classList.contains('light-theme');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            btn.textContent = isLight ? '🌙 Тёмная тема' : '☀️ Светлая тема';
+        });
+    </script>
+</body>
+</html>
