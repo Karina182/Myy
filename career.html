@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Где нужны программисты и сколько зарабатывают</title>
+    <title>Кто такие программисты? | Профессия будущего</title>
     <style>
-        
+      
 /* =========================================
    АДАПТАЦИЯ САЙТА ПОД МОБИЛЬНЫЕ УСТРОЙСТВА
    ========================================= */
@@ -329,9 +329,10 @@
             --border-color: rgba(59, 130, 246, 0.25);
             --accent: #3b82f6;
             --accent-glow: rgba(59, 130, 246, 0.22);
-            --badge-bg: rgba(59, 130, 246, 0.18);
             --text-main: #f1f5f9;
             --text-muted: #94a3b8;
+            --code-bg: #03050a;
+            --code-text: #38bdf8;
         }
 
         body.light-theme {
@@ -341,9 +342,10 @@
             --border-color: rgba(37, 99, 235, 0.2);
             --accent: #2563eb;
             --accent-glow: rgba(37, 99, 235, 0.1);
-            --badge-bg: rgba(37, 99, 235, 0.12);
             --text-main: #0f172a;
             --text-muted: #475569;
+            --code-bg: #0f172a;
+            --code-text: #38bdf8;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
@@ -351,8 +353,8 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
-            line-height: 1.65;
-            background-image: radial-gradient(circle at 85% 20%, var(--accent-glow), transparent 45%);
+            line-height: 1.6;
+            background-image: radial-gradient(circle at 15% 15%, var(--accent-glow), transparent 45%);
             min-height: 100vh;
             transition: background-color 0.3s, color 0.3s;
         }
@@ -381,218 +383,215 @@
         }
         .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
 
-        .container { max-width: 1140px; margin: 0 auto; padding: 45px 20px; }
+        .container { max-width: 1150px; margin: 0 auto; padding: 45px 20px; }
 
-        .page-header { text-align: center; margin-bottom: 30px; }
-        .page-header h1 { font-size: 2.6rem; margin-bottom: 12px; letter-spacing: -0.5px; }
-        .page-header h1 span { color: var(--accent); }
-        .subtitle { color: var(--text-muted); font-size: 1.15rem; max-width: 750px; margin: 0 auto; }
-
-        /* Красивый и аккуратный баннер с правильными пропорциями */
-        .banner-container {
-            width: 100%;
-            max-width: 850px; /* Ограничиваем ширину, чтобы баннер смотрелся элегантно */
-            margin: 0 auto 50px auto;
-            border-radius: 22px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            background: var(--card-bg);
+        /* Главный блок Hero с увеличенной пропорцией для фото */
+        .hero {
+            display: grid; grid-template-columns: 1fr 1.2fr; gap: 40px; align-items: center;
+            padding: 50px; background: var(--card-bg); border: 1px solid var(--border-color);
+            border-radius: 28px; backdrop-filter: blur(16px); margin-bottom: 45px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
         }
-        .banner-container img {
+
+        @media (max-width: 900px) { 
+            .hero { grid-template-columns: 1fr; text-align: center; padding: 35px 20px; } 
+        }
+
+        .hero h1 { font-size: 2.7rem; margin-bottom: 18px; line-height: 1.2; letter-spacing: -0.5px; }
+        .hero h1 span { color: var(--accent); }
+        .hero p { font-size: 1.15rem; color: var(--text-muted); }
+
+        /* Масштабная фотография без рамок */
+        .image-frame {
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-frame img {
             width: 100%;
             height: auto;
-            max-height: 380px;
-            object-fit: contain; /* Картинка полностью поместится без жесткой обрезки */
+            max-height: 420px; /* Увеличено для максимальной масштабности */
+            object-fit: cover;
             display: block;
-            margin: 0 auto;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+            transition: transform 0.5s ease;
         }
 
-        .section-heading {
-            font-size: 1.85rem; margin-bottom: 24px;
-            display: flex; align-items: center; gap: 12px;
-        }
-        .section-heading::before {
-            content: ""; display: inline-block; width: 6px; height: 28px;
-            background: var(--accent); border-radius: 4px;
+        .image-frame:hover img { 
+            transform: scale(1.20); 
         }
 
-        /* Сетка отраслей */
-        .sectors { 
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
-            gap: 24px; margin-bottom: 55px; 
-        }
-        .sector-card {
+        /* Карточки направлений */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
+        
+        .card {
             background: var(--card-bg); border: 1px solid var(--border-color);
-            padding: 28px; border-radius: 20px; backdrop-filter: blur(12px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+            border-radius: 22px; padding: 32px; backdrop-filter: blur(12px);
             transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
         }
-        .sector-card:hover {
-            transform: translateY(-5px);
+
+        .card:hover { 
+            transform: translateY(-6px); 
             border-color: var(--accent);
             box-shadow: 0 14px 30px var(--accent-glow);
         }
-        .sector-card h3 { color: var(--accent); margin-bottom: 10px; font-size: 1.3rem; }
-        .sector-card p { color: var(--text-muted); font-size: 0.98rem; }
 
-        /* Таблица зарплат */
-        .salary-section {
-            background: var(--card-bg); border: 1px solid var(--border-color);
-            border-radius: 24px; padding: 38px; backdrop-filter: blur(14px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            margin-bottom: 55px;
-        }
-        .salary-section h2 { margin-bottom: 10px; font-size: 1.85rem; }
-        .salary-note { color: var(--text-muted); margin-bottom: 25px; font-size: 0.98rem; }
-        
-        .salary-row {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 20px 0; border-bottom: 1px solid var(--border-color); 
-            flex-wrap: wrap; gap: 15px;
-        }
-        .salary-row:last-child { border-bottom: none; padding-bottom: 0; }
-        .salary-info strong { font-size: 1.15rem; display: block; margin-bottom: 4px; }
-        .salary-info p { color: var(--text-muted); font-size: 0.95rem; max-width: 680px; }
-        
-        .badge {
-            background: var(--badge-bg); color: var(--accent);
-            border: 1px solid var(--border-color);
-            padding: 8px 18px; border-radius: 14px; font-weight: 700;
-            font-size: 1.05rem; white-space: nowrap;
+        .card h3 { color: var(--accent); margin-bottom: 12px; font-size: 1.4rem; }
+        .card p { color: var(--text-muted); font-size: 1.02rem; }
+
+        /* Блок с кодом */
+        .code-box {
+            background: var(--code-bg); border: 1px solid var(--border-color);
+            padding: 24px 28px; border-radius: 16px; font-family: 'Consolas', 'Courier New', monospace;
+            color: var(--code-text); margin-top: 45px; overflow-x: auto;
+            font-size: 1.05rem; box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
         }
 
-        /* Форматы работы */
-        .perks-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 20px;
-        }
-        .perk-card {
-            background: var(--card-bg); border: 1px solid var(--border-color);
-            border-radius: 18px; padding: 24px; backdrop-filter: blur(10px);
-        }
-        .perk-card h4 { color: var(--accent); margin-bottom: 8px; font-size: 1.15rem; }
-        .perk-card p { color: var(--text-muted); font-size: 0.95rem; }
+        footer { text-align: center; padding: 40px; color: var(--text-muted); font-size: 0.95rem; }
+    
+/* Удобная мобильная навигация */
+.site-nav { display:flex; align-items:center; justify-content:center; }
+.nav-links { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:12px; }
+.menu-toggle {
+    display:none; width:46px; height:42px; padding:9px;
+    border:1px solid var(--border-color); border-radius:12px;
+    background:var(--card-bg); cursor:pointer;
+}
+.menu-toggle span {
+    display:block; height:2px; width:100%; margin:4px 0;
+    border-radius:2px; background:var(--text-main); transition:transform .2s, opacity .2s;
+}
+.menu-toggle[aria-expanded="true"] span:first-child { transform:translateY(6px) rotate(45deg); }
+.menu-toggle[aria-expanded="true"] span:nth-child(2) { opacity:0; }
+.menu-toggle[aria-expanded="true"] span:last-child { transform:translateY(-6px) rotate(-45deg); }
+.nav-links a, .nav-links .theme-btn { min-height:42px; display:inline-flex; align-items:center; justify-content:center; }
+@media (max-width: 700px) {
+    nav.site-nav {
+        position:sticky; top:0; z-index:1000;
+        display:flex; justify-content:flex-end; align-items:center;
+        padding:10px 14px; min-height:62px;
+    }
+    .menu-toggle { display:block; flex:0 0 auto; }
+    .nav-links {
+        display:none; position:absolute; top:100%; left:0; right:0;
+        flex-direction:column; align-items:stretch; gap:7px;
+        padding:12px 14px 16px; background:var(--nav-bg);
+        border-bottom:1px solid var(--border-color);
+        box-shadow:0 12px 24px rgba(0,0,0,.22);
+        backdrop-filter:blur(14px);
+    }
+    .nav-links.is-open { display:flex; }
+    .nav-links a, .nav-links .theme-btn {
+        width:100%; min-height:46px; margin:0; padding:11px 14px;
+        border-radius:12px; font-size: .95rem; text-align:center;
+    }
+    .nav-links .theme-btn { white-space:normal; }
+    body.menu-open { overflow:hidden; }
+}
+@media (min-width: 701px) {
+    .nav-links { display:flex !important; }
+}
 
-        footer { text-align: center; padding: 35px; color: var(--text-muted); font-size: 0.95rem; }
-    </style>
+</style>
 </head>
 <body>
-    <nav>
-        <a href="index.html">1. Кто такие программисты</a>
-        <a href="career.html" class="active">2. Востребованность и доход</a>
-        <a href="society.html">3. Польза для общества</a>
-        <a href="about.html">4. Мой путь в профессии</a>
-        <button class="theme-btn" id="themeToggle">☀️ Светлая тема</button>
+    <nav class="site-nav">
+        <button class="menu-toggle" type="button" aria-label="Открыть меню"
+                aria-expanded="false" aria-controls="site-menu">
+            <span></span><span></span><span></span>
+        </button>
+        <div class="nav-links" id="site-menu">
+            <a href="index.html" class="active">1. Кто такие программисты</a> <a href="career.html">2. Востребованность и доход</a> <a href="society.html">3. Польза для общества</a> <a href="about.html">4. Мой путь в профессии</a>
+            <button class="theme-btn" id="themeToggle">☀️ Светлая тема</button>
+        </div>
     </nav>
 
     <div class="container">
-        <div class="page-header">
-            <h1>Где нужны <span>программисты</span> и сколько платят?</h1>
-            <p class="subtitle">Сегодня IT-специалисты востребованы абсолютно в каждой отрасли экономики — от крупных промышленных предприятий до медицины и развлечений</p>
-        </div>
+        <section class="hero">
+            <div>
+                <h1>Кто такие <span>программисты</span>?</h1>
+                <p>Это архитекторы цифрового мира, которые переводят человеческие идеи и логику на язык, понятный компьютерам, создавая сайты, приложения, игры и искусственный интеллект.</p>
+            </div>
+            <div class="image-frame">    
+                <img src="Рисунок2.png" alt="Программный код на экране монитора">
+            </div>
+        </section>
 
-        <!-- Исправленный компактный блок с картинкой -->
-        <div class="banner-container">
-            <img src="Рисунок1.png" alt="Рабочее место разработчика с ноутбуком">
-        </div>
-
-        <h2 class="section-heading">Ключевые сферы применения</h2>
-        <div class="sectors">
-            <div class="sector-card">
-                <h3>Нефтегаз и промышленность</h3>
-                <p>Автоматизация добычи и переработки, геодезические расчёты, мониторинг датчиков в реальном времени, системы телеметрии и цифровые двойники предприятий.</p>
+        <div class="grid">
+            <div class="card">
+                <h3>Frontend-разработчик</h3>
+                <p>Создаёт всё, что пользователь видит на экране и с чем взаимодействует: кнопки, анимации, адаптивную вёрстку и удобные интерфейсы (HTML, CSS, JavaScript).</p>
             </div>
-            <div class="sector-card">
-                <h3>Медицина и биотехнологии</h3>
-                <p>Медицинские информационные системы (МИС), электронные карты пациентов, онлайн-запись к врачам и диагностика снимков с помощью искусственного интеллекта.</p>
+            <div class="card">
+                <h3>Backend-разработчик</h3>
+                <p>Отвечает за «мозг» и внутреннюю логику проекта: работу серверов, безопасность данных, авторизацию и взаимодействие с базами данных (Python, C#, Java, SQL).</p>
             </div>
-            <div class="sector-card">
-                <h3>Финтех и банковский сектор</h3>
-                <p>Мобильные банки, системы быстрых платежей, защита финансовых транзакций, алгоритмическая торговля и антифрод-системы против мошенников.</p>
-            </div>
-            <div class="sector-card">
-                <h3>Образование и EdTech</h3>
-                <p>Интерактивные образовательные платформы, электронные дневники, тренажёры для изучения языков, системы тестирования и дистанционного обучения.</p>
-            </div>
-            <div class="sector-card">
-                <h3>E-commerce и логистика</h3>
-                <p>Маркетплейсы, сервисы доставки, автоматизация складов, построение оптимальных маршрутов транспорта и системы учёта товаров.</p>
-            </div>
-            <div class="sector-card">
-                <h3>Госсектор и кибербезопасность</h3>
-                <p>Порталы государственных услуг, защита критической информационной инфраструктуры, шифрование данных и обеспечение цифровой безопасности граждан.</p>
+            <div class="card">
+                <h3>Fullstack и Mobile</h3>
+                <p>Универсальные специалисты, способные собрать веб-приложение целиком, либо разработчики мобильных сервисов под Android и iOS, которыми мы пользуемся каждый день.</p>
             </div>
         </div>
 
-        <div class="salary-section">
-            <h2>Карьерные уровни и уровень дохода в России</h2>
-            <p class="salary-note">Зарплата напрямую зависит от грейда (уровня опыта), стека технологий и сложности решаемых бизнес-задач:</p>
-            
-            <div class="salary-row">
-                <div class="salary-info">
-                    <strong>Intern (Стажёр)</strong>
-                    <p>Студенты старших курсов и выпускники без коммерческого опыта. Работа под руководством наставника, исправление небольших ошибок и изучение командной разработки.</p>
-                </div>
-                <span class="badge">35 000 – 65 000 ₽</span>
-            </div>
-
-            <div class="salary-row">
-                <div class="salary-info">
-                    <strong>Junior (Начинающий специалист)</strong>
-                    <p>Опыт от 6 месяцев до 1.5 лет. Уверенное знание базового языка (Python, C#, JS), умение работать с базами данных, Git и самостоятельно закрывать типовые задачи.</p>
-                </div>
-                <span class="badge">75 000 – 130 000 ₽</span>
-            </div>
-
-            <div class="salary-row">
-                <div class="salary-info">
-                    <strong>Middle (Уверенный разработчик)</strong>
-                    <p>Опыт от 1.5 до 4 лет. Самостоятельное проектирование модулей, оптимизация запросов к БД, участие в выборе архитектуры и понимание бизнес-логики продукта.</p>
-                </div>
-                <span class="badge">160 000 – 260 000 ₽</span>
-            </div>
-
-            <div class="salary-row">
-                <div class="salary-info">
-                    <strong>Senior / Team Lead (Ведущий разработчик)</strong>
-                    <p>Опыт от 4+ лет. Проектирование высоконагруженных систем, ответственность за техническую стратегию, код-ревью и управление командой разработчиков.</p>
-                </div>
-                <span class="badge">290 000 – 480 000+ ₽</span>
-            </div>
-        </div>
-
-        <h2 class="section-heading">Форматы работы и преимущества профессии</h2>
-        <div class="perks-grid">
-            <div class="perk-card">
-                <h4>Гибкий график и удалёнка</h4>
-                <p>Возможность работать из любой точки мира, в гибридном формате или в современном IT-офисе с гибким началом рабочего дня.</p>
-            </div>
-            <div class="perk-card">
-                <h4>Фриланс и пет-проекты</h4>
-                <p>Помимо основной работы в компании, программист может брать заказы на создание сайтов, ботов или запускать собственные стартапы.</p>
-            </div>
-            <div class="perk-card">
-                <h4>Постоянный рост и льготы</h4>
-                <p>Прозрачная система грейдов (пересмотр зарплаты каждые полгода-год), ДМС, оплата курсов и государственная поддержка IT-специалистов.</p>
-            </div>
+        <div class="code-box">
+            // Как выглядит повседневная магия кода:<br>
+            function createFuture(idea, logic) {<br>
+            &nbsp;&nbsp;if (idea && logic) return "Работающий цифровой продукт 🚀";<br>
+            }
         </div>
     </div>
 
-    <footer>Проект о специальности «Программист» • Страница 2 из 4</footer>
+    <footer>Проект о специальности «Программист» • Страница 1 из 4</footer>
 
     <script>
-        const btn = document.getElementById('themeToggle');
+(() => {
+    const nav = document.querySelector('.site-nav');
+    if (!nav) return;
+
+    const menuButton = nav.querySelector('.menu-toggle');
+    const menu = nav.querySelector('.nav-links');
+    const themeButton = nav.querySelector('.theme-btn');
+
+    const closeMenu = () => {
+        menu.classList.remove('is-open');
+        menuButton.setAttribute('aria-expanded', 'false');
+        menuButton.setAttribute('aria-label', 'Открыть меню');
+        document.body.classList.remove('menu-open');
+    };
+
+    menuButton.addEventListener('click', () => {
+        const willOpen = menuButton.getAttribute('aria-expanded') !== 'true';
+        menu.classList.toggle('is-open', willOpen);
+        menuButton.setAttribute('aria-expanded', String(willOpen));
+        menuButton.setAttribute('aria-label', willOpen ? 'Закрыть меню' : 'Открыть меню');
+        document.body.classList.toggle('menu-open', willOpen);
+    });
+
+    menu.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape') closeMenu();
+    });
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 700) closeMenu();
+    });
+
+    if (themeButton) {
         if (localStorage.getItem('theme') === 'light') {
             document.body.classList.add('light-theme');
-            btn.textContent = '🌙 Тёмная тема';
+            themeButton.textContent = '🌙 Тёмная тема';
         }
-        btn.addEventListener('click', () => {
+        themeButton.addEventListener('click', () => {
             document.body.classList.toggle('light-theme');
             const isLight = document.body.classList.contains('light-theme');
             localStorage.setItem('theme', isLight ? 'light' : 'dark');
-            btn.textContent = isLight ? '🌙 Тёмная тема' : '☀️ Светлая тема';
+            themeButton.textContent = isLight ? '🌙 Тёмная тема' : '☀️ Светлая тема';
         });
-    </script>
+    }
+})();
+</script>
 </body>
 </html>

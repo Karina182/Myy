@@ -420,15 +420,62 @@
         .achievements ul { list-style: none; display: flex; flex-direction: column; gap: 14px; }
         .achievements li::before { content: "✦ "; color: var(--accent); font-weight: bold; }
         footer { text-align: center; padding: 30px; color: var(--text-muted); font-size: 0.9rem; }
-    </style>
+    
+/* Удобная мобильная навигация */
+.site-nav { display:flex; align-items:center; justify-content:center; }
+.nav-links { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:12px; }
+.menu-toggle {
+    display:none; width:46px; height:42px; padding:9px;
+    border:1px solid var(--border-color); border-radius:12px;
+    background:var(--card-bg); cursor:pointer;
+}
+.menu-toggle span {
+    display:block; height:2px; width:100%; margin:4px 0;
+    border-radius:2px; background:var(--text-main); transition:transform .2s, opacity .2s;
+}
+.menu-toggle[aria-expanded="true"] span:first-child { transform:translateY(6px) rotate(45deg); }
+.menu-toggle[aria-expanded="true"] span:nth-child(2) { opacity:0; }
+.menu-toggle[aria-expanded="true"] span:last-child { transform:translateY(-6px) rotate(-45deg); }
+.nav-links a, .nav-links .theme-btn { min-height:42px; display:inline-flex; align-items:center; justify-content:center; }
+@media (max-width: 700px) {
+    nav.site-nav {
+        position:sticky; top:0; z-index:1000;
+        display:flex; justify-content:flex-end; align-items:center;
+        padding:10px 14px; min-height:62px;
+    }
+    .menu-toggle { display:block; flex:0 0 auto; }
+    .nav-links {
+        display:none; position:absolute; top:100%; left:0; right:0;
+        flex-direction:column; align-items:stretch; gap:7px;
+        padding:12px 14px 16px; background:var(--nav-bg);
+        border-bottom:1px solid var(--border-color);
+        box-shadow:0 12px 24px rgba(0,0,0,.22);
+        backdrop-filter:blur(14px);
+    }
+    .nav-links.is-open { display:flex; }
+    .nav-links a, .nav-links .theme-btn {
+        width:100%; min-height:46px; margin:0; padding:11px 14px;
+        border-radius:12px; font-size: .95rem; text-align:center;
+    }
+    .nav-links .theme-btn { white-space:normal; }
+    body.menu-open { overflow:hidden; }
+}
+@media (min-width: 701px) {
+    .nav-links { display:flex !important; }
+}
+
+</style>
 </head>
 <body>
-    <nav>
-        <a href="index.html">1. Кто такие программисты</a>
-        <a href="career.html">2. Востребованность и доход</a>
-        <a href="society.html">3. Польза для общества</a>
-        <a href="about.html" class="active">4. Мой путь в профессии</a>
-        <button class="theme-btn" id="themeToggle">☀️ Светлая тема</button>
+    <nav class="site-nav">
+        <button class="menu-toggle" type="button" aria-label="Открыть меню"
+                aria-expanded="false" aria-controls="site-menu">
+            <span></span><span></span><span></span>
+        </button>
+        <div class="nav-links" id="site-menu">
+            <a href="index.html">1. Кто такие программисты</a> <a href="career.html">2. Востребованность и доход</a> <a href="society.html">3. Польза для общества</a> <a href="about.html" class="active">4. Мой путь в профессии</a>
+            <button class="theme-btn" id="themeToggle">☀️ Светлая тема</button>
+        </div>
     </nav>
 
     <div class="container">
@@ -483,17 +530,50 @@
     <footer>Проект о специальности «Программист» • Страница 4 из 4</footer>
 
     <script>
-        const btn = document.getElementById('themeToggle');
+(() => {
+    const nav = document.querySelector('.site-nav');
+    if (!nav) return;
+
+    const menuButton = nav.querySelector('.menu-toggle');
+    const menu = nav.querySelector('.nav-links');
+    const themeButton = nav.querySelector('.theme-btn');
+
+    const closeMenu = () => {
+        menu.classList.remove('is-open');
+        menuButton.setAttribute('aria-expanded', 'false');
+        menuButton.setAttribute('aria-label', 'Открыть меню');
+        document.body.classList.remove('menu-open');
+    };
+
+    menuButton.addEventListener('click', () => {
+        const willOpen = menuButton.getAttribute('aria-expanded') !== 'true';
+        menu.classList.toggle('is-open', willOpen);
+        menuButton.setAttribute('aria-expanded', String(willOpen));
+        menuButton.setAttribute('aria-label', willOpen ? 'Закрыть меню' : 'Открыть меню');
+        document.body.classList.toggle('menu-open', willOpen);
+    });
+
+    menu.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape') closeMenu();
+    });
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 700) closeMenu();
+    });
+
+    if (themeButton) {
         if (localStorage.getItem('theme') === 'light') {
             document.body.classList.add('light-theme');
-            btn.textContent = '🌙 Тёмная тема';
+            themeButton.textContent = '🌙 Тёмная тема';
         }
-        btn.addEventListener('click', () => {
+        themeButton.addEventListener('click', () => {
             document.body.classList.toggle('light-theme');
             const isLight = document.body.classList.contains('light-theme');
             localStorage.setItem('theme', isLight ? 'light' : 'dark');
-            btn.textContent = isLight ? '🌙 Тёмная тема' : '☀️ Светлая тема';
+            themeButton.textContent = isLight ? '🌙 Тёмная тема' : '☀️ Светлая тема';
         });
-    </script>
+    }
+})();
+</script>
 </body>
 </html>
